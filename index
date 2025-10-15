@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Food Garden Recommender</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+    <ul>
+        <li><a href="#" onclick="showPage('homepage')">Home</a></li>
+        <li><a href="#" onclick="showPage('about')">About</a></li>
+        <li><a href="#" onclick="showPage('gardenForm')">Garden Form</a></li>
+        <li><a href="#" onclick="showPage('recommendation')">Recommendation</a></li>
+    </ul>
+</nav>
+
+<!-- 1️⃣ Homepage -->
+<div id="homepage" class="page active">
+    <h1>🌿Lets grow your Garden</h1>
+    <p>This project helps you choose the best plants for your garden based on the size of your garden area.</p>
+    <h3>WHY IT MATTERS:</h3>
+    <h3>🌍Environmental benefits:</h3>
+    <ul>
+        <li>Reduces carbon footprint: Growing food locally eliminates the emissions associated with transporting produce long distances</li>
+        <li>Decreases chemical use: You can choose to use organic and sustainable practices, which reduces the need for harmful pesticides and fertilizers. </li>
+        <li>Promotes biodiversity: Gardens can create habitats for beneficial insects like pollinators. </li>
+
+        <h3>💚Health wellbeing benefits</h3>
+        <li>Improves nutrition: Access to fresh, homegrown produce encourages a diet richer in fruits and vegetables. </li>
+        <li>Provides physical activity: Gardening is a form of exercise that can help you stay fit and active</li>
+        <li>Reduces stress: The act of gardening can be a therapeutic hobby that lowers stress and provides a sense of accomplishment.
+            Enhances taste: Homegrown food often tastes better because it is harvested at its peak freshness. </li>
+
+        <h3>💰Financial benefits</h3>
+
+        <li>Saves money: Growing your own food can be a more affordable way to get fresh produce. </li>
+        <li>increases food security: Gardening provides a direct and reliable source of food, which is especially important in areas with food insecurity. </li>
+        <li>Builds community: Community gardens, in particular, bring people together to work towards a common goal. </li>
+        <li>Offers educational opportunities: Gardening is a great way to learn about where food comes from, and it can be used to teach children about nature and healthy eating. </li>
+    </ul>
+    <h3>Case Studies:</h3>
+    <ul>
+        <li><b>Urban Garden:</b> Small space, high yield herbs.</li>
+        <li><b>Rural Garden:</b> Larger plots supporting fruit trees.</li>
+    </ul>
+    <button onclick="showPage('gardenForm')">Go to Garden Form →</button>
+</div>
+
+<!-- 2️⃣ About Page -->
+<div id="about" class="page">
+    <h2>👩‍🌾 About Our Team</h2>
+    <p>We as the BrainStorm Troopers are driven by a shared passion for food sustainability, technology, and innovation. Our mission is to empower communities to grow their own food while learning how modern web technologies bring real-world solutions to life. This app bridges the gap between front-end creativity and back-end logic — showing how teamwork and code can help grow something meaningful.</p>
+    <ul>
+        <li><b>Fun Fact:</b> Did you know? Brainstorm Troopers believe that learning, creativity, and food sustainability can go hand in hand — and we try to prove it every day!</li>
+
+    </ul>
+    <button onclick="showPage('homepage')">← Back to Home</button>
+</div>
+
+<!-- 3️⃣ Garden Form -->
+<div id="gardenForm" class="page">
+    <h2>🌱 Enter Your Garden Area</h2>
+    <p>Enter the total area (in square meters) of your garden to get plant recommendations.</p>
+    <input type="number" id="gardenArea" placeholder="e.g., 15">
+    <br>
+    <button onclick="generateRecommendation()">Get Recommendation</button>
+</div>
+
+<!-- 4️⃣ Recommendation Page -->
+<div id="recommendation" class="page">
+    <h2>🌻 Your Plant Recommendation</h2>
+    <p><b>Area size entered:</b> <span id="displayArea">—</span> m²</p>
+    <p><b>Suggested Plant(s):</b> <span id="suggestedPlant">—</span></p>
+    <img id="plantImage" src="" alt="Plant Image" style="width:100%;max-width:300px;border-radius:10px;display:none;margin-top:15px;">
+    <br>
+    <button onclick="showPage('gardenForm')">← Back to Form</button>
+</div>
+
+<footer>
+    &copy; 2025 by Brainstorm troopers
+</footer>
+
+<script>
+    function showPage(id) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+
+    function generateRecommendation() {
+      const area = parseFloat(document.getElementById('gardenArea').value);
+      const displayArea = document.getElementById('displayArea');
+      const suggestedPlant = document.getElementById('suggestedPlant');
+      const plantImage = document.getElementById('plantImage');
+
+      if (isNaN(area) || area <= 0) {
+        alert("Please enter a valid garden area.");
+        return;
+      }
+
+      displayArea.textContent = area;
+
+      let plant, image;
+      if (area < 10) {
+        plant = "Herbs or small leafy greens (like spinach, basil, or lettuce)";
+        image = "https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Ocimum_basilicum_8zz.jpg/500px-Ocimum_basilicum_8zz.jpg";
+      } else if (area < 16) {
+        plant = "Root vegetables (like carrots, beets) or medium plants (like peppers)";
+        image = "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/CarrotDiversityLg.jpg/500px-CarrotDiversityLg.jpg";
+      } else if (area < 25) {
+        plant = "Stem vegetables (like asparagus or leeks)";
+        image = "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Brassica_oleracea_var.gongylodes%28kohlrabi%29.jpg/500px-Brassica_oleracea_var.gongylodes%28kohlrabi%29.jpg";
+      } else if (area < 30) {
+        plant = "Vegetables with underground bulbs or cloves (such as onions and garlic)";
+        image = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Mixed_onions.jpg/500px-Mixed_onions.jpg";
+      } else if (area < 35) {
+        plant = "he edible portion is the flower (like broccoli or cauliflower )";
+        image = "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Broccoli_bloem.jpg/500px-Broccoli_bloem.jpg";
+      } else {
+        plant = "Large vegetable or fruit tree ( like apples or peaches)";
+        image = "https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Malus_domestica_a1.jpg/500px-Malus_domestica_a1.jpg";
+        }
+      suggestedPlant.textContent = plant;
+      plantImage.src = image;
+      plantImage.style.display = "block";
+
+      showPage('recommendation');
+    }
+
+</script>
+</body>
+</html>
+<link rel="stylesheet" href="style.css">
