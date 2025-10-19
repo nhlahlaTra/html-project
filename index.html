@@ -1,25 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head><link rel="stylesheet" href="style.css">
     <meta charset="UTF-8">
     <title>Food Garden Recommender</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+
+    </style>
 </head>
 <body>
 
-<nav>
+<nav aria-label="Main navigation">
     <ul>
         <li><a href="#" onclick="showPage('homepage')">Home</a></li>
         <li><a href="#" onclick="showPage('about')">About</a></li>
         <li><a href="#" onclick="showPage('gardenForm')">Garden Form</a></li>
         <li><a href="#" onclick="showPage('recommendation')">Recommendation</a></li>
+        <li><a href="#" onclick="showPage('challenges')">Challenges</a></li>
     </ul>
 </nav>
 
-<!-- 1️⃣ Homepage -->
+<!-- Homepage -->
 <div id="homepage" class="page active">
-    <h1>🌿Lets grow your Garden</h1>
-    <p>This project helps you choose the best plants for your garden based on the size of your garden area.</p>
+    <h1>🌿 Let's Grow Your Garden</h1>
+    <p>Find the best plants for your garden, calculate how many you can grow, and learn about common gardening challenges.</p>
     <h3>WHY IT MATTERS:</h3>
     <h3>🌍Environmental benefits:</h3>
     <ul>
@@ -32,9 +35,12 @@
         <li>Provides physical activity: Gardening is a form of exercise that can help you stay fit and active</li>
         <li>Reduces stress: The act of gardening can be a therapeutic hobby that lowers stress and provides a sense of accomplishment.
             Enhances taste: Homegrown food often tastes better because it is harvested at its peak freshness. </li>
-
         <h3>💰Financial benefits</h3>
-
+        <li>Saves money: Growing your own food can be a more affordable way to get fresh produce. </li>
+        <li>increases food security: Gardening provides a direct and reliable source of food, which is especially important in areas with food insecurity. </li>
+        <li>Builds community: Community gardens, in particular, bring people together to work towards a common goal. </li>
+        <li>Offers educational opportunities: Gardening is a great way to learn about where food comes from, and it can be used to teach children about nature and healthy eating. </li>
+        <h3>💰Financial benefits</h3>
         <li>Saves money: Growing your own food can be a more affordable way to get fresh produce. </li>
         <li>increases food security: Gardening provides a direct and reliable source of food, which is especially important in areas with food insecurity. </li>
         <li>Builds community: Community gardens, in particular, bring people together to work towards a common goal. </li>
@@ -45,90 +51,142 @@
         <li><b>Urban Garden:</b> Small space, high yield herbs.</li>
         <li><b>Rural Garden:</b> Larger plots supporting fruit trees.</li>
     </ul>
-    <button onclick="showPage('gardenForm')">Go to Garden Form →</button>
+
+        <button onclick="showPage('gardenForm')">Go to Garden Form →</button>
 </div>
 
-<!-- 2️⃣ About Page -->
+<!-- About Page -->
 <div id="about" class="page">
     <h2>👩‍🌾 About Our Team</h2>
-    <p>We as the BrainStorm Troopers are driven by a shared passion for food sustainability, technology, and innovation. Our mission is to empower communities to grow their own food while learning how modern web technologies bring real-world solutions to life. This app bridges the gap between front-end creativity and back-end logic — showing how teamwork and code can help grow something meaningful.</p>
-    <ul>
-        <li><b>Fun Fact:</b> Did you know? Brainstorm Troopers believe that learning, creativity, and food sustainability can go hand in hand — and we try to prove it every day!</li>
+    <p>We Brainstorm Troopers are a group of students driven by a shared passion for food sustainability, technology, and innovation. Our mission is to empower communities to grow their own food while learning how modern web technologies bring real-world solutions to life. This app bridges the gap between front-end creativity and back-end logic — showing how teamwork and code can help grow something meaningful.</p>
+    <img src="image/team.jpg" alt="BrainStorm Troopers Team" class="team-photo">
 
-    </ul>
     <button onclick="showPage('homepage')">← Back to Home</button>
 </div>
 
-<!-- 3️⃣ Garden Form -->
+<!-- Garden Form -->
 <div id="gardenForm" class="page">
-    <h2>🌱 Enter Your Garden Area</h2>
-    <p>Enter the total area (in square meters) of your garden to get plant recommendations.</p>
-    <input type="number" id="gardenArea" placeholder="e.g., 15">
+    <h2>🌱 Garden Planner</h2>
+
+    <label>Search Plant:
+        <input type="text" id="plantSearch" placeholder="e.g., Tomato" oninput="searchPlant()"></label>
+
+    <div id="plantInfo" class="card" style="display:none;">
+        <h3 id="plantName"></h3>
+        <p id="plantDescription"></p>
+        <p><b>Spacing:</b> <span id="plantSpacing"></span> m² per plant</p>
+        <img id="plantImg" src="" alt="Plant Image">
+    </div>
+
+    <hr>
+    <p>Enter your garden dimensions:</p>
+    <label>Length (m): <input type="number" id="length" placeholder="e.g., 5"></label>
+    <label>Width (m): <input type="number" id="width" placeholder="e.g., 3"></label>
     <br>
-    <button onclick="generateRecommendation()">Get Recommendation</button>
+    <button onclick="calculatePlants()">Calculate Area & Number of Plants</button>
 </div>
 
-<!-- 4️⃣ Recommendation Page -->
+<!-- Recommendation Page -->
 <div id="recommendation" class="page">
-    <h2>🌻 Your Plant Recommendation</h2>
-    <p><b>Area size entered:</b> <span id="displayArea">—</span> m²</p>
-    <p><b>Suggested Plant(s):</b> <span id="suggestedPlant">—</span></p>
-    <img id="plantImage" src="" alt="Plant Image" style="width:100%;max-width:300px;border-radius:10px;display:none;margin-top:15px;">
+    <h2>🌻 Your Garden Recommendation</h2>
+    <p><b>Garden area:</b> <span id="displayArea">—</span> m²</p>
+    <p><b>Plant:</b> <span id="displayPlant">—</span></p>
+    <p><b>Number of plants you can grow:</b> <span id="numPlants">—</span></p>
+    <img id="plantImageRec" src="" alt="Plant Image">
     <br>
     <button onclick="showPage('gardenForm')">← Back to Form</button>
 </div>
 
-<footer>
-    &copy; 2025 by Brainstorm troopers
-</footer>
+<!-- Challenges Page -->
+<div id="challenges" class="page">
+    <h2>⚠ Challenges in Food Gardening</h2>
+    <ol>
+        <li><b>Pests and Diseases:</b>
+            <ul>
+                <li>Insects like aphids, beetles, and caterpillars can damage crops.</li>
+                <li>Fungal, bacterial, and viral diseases reduce yield.</li>
+                <li>Without proper control, crops may be lost.</li>
+            </ul>
+        </li>
+        <li><b>Climate & Weather Conditions:</b>
+            <ul>
+                <li>Too much or too little rainfall affects growth.</li>
+                <li>Extreme temperatures and drought harm plants.</li>
+            </ul>
+        </li>
+        <li><b>Market & Storage Problems:</b>
+            <ul>
+                <li>Difficulty selling produce without market access.</li>
+                <li>Perishable produce may go to waste without storage.</li>
+            </ul>
+        </li>
+        <li><b>Social & Cultural Barriers:</b>
+            <ul>
+                <li>Communities may undervalue gardening.</li>
+                <li>Gender roles may limit participation.</li>
+            </ul>
+        </li>
+    </ol>
+    <button onclick="showPage('homepage')">← Back to Home</button>
+</div>
+
+<footer>&copy; 2025 BrainStorm Troopers</footer>
 
 <script>
+    // Page navigation
     function showPage(id) {
-      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
     }
 
-    function generateRecommendation() {
-      const area = parseFloat(document.getElementById('gardenArea').value);
-      const displayArea = document.getElementById('displayArea');
-      const suggestedPlant = document.getElementById('suggestedPlant');
-      const plantImage = document.getElementById('plantImage');
+  const plants = [
+  { name: "Tomato", description: "Juicy fruit used in salads and sauces.", spacing: 0.5, image: "https://cdn.britannica.com/16/187216-050-CB57A09B/tomatoes-tomato-plant-Fruit-vegetable.jpg?w=300" },
+  { name: "Cabbage", description: "Leafy vegetable, great for salads and cooking.", spacing: 0.4, image: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Cabbage_and_cross_section_on_white.jpg/500px-Cabbage_and_cross_section_on_white.jpg" },
+  { name: "Onion", description: "Bulb vegetable used for flavoring.", spacing: 0.2, image: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/ARS_red_onion.jpg/250px-ARS_red_onion.jpg" },
+  { name: "Carrot", description: "Root vegetable rich in vitamins.", spacing: 0.2, image: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Carrots_at_Ljubljana_Central_Market.JPG/960px-Carrots_at_Ljubljana_Central_Market.JPG" },
+  { name: "Lettuce", description: "Leafy green used in salads.", spacing: 0.3, image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Lettuce_mix.jpg/500px-Lettuce_mix.jpg" },
+  { name: "Pepper", description: "Spicy or sweet fruit used in cooking.", spacing: 0.4, image: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Colorful_Bell_Peppers.JPG/500px-Colorful_Bell_Peppers.JPG" },
+  { name: "Spinach", description: "Nutritious leafy green.", spacing: 0.3, image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Spinacia_oleracea_Spinazie_bloeiend.jpg/500px-Spinacia_oleracea_Spinazie_bloeiend.jpg" },
+  { name: "Broccoli", description: "Edible green plant with flowering heads.", spacing: 0.5, image: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Broccoli_bloem.jpg/500px-Broccoli_bloem.jpg" }
+];
 
-      if (isNaN(area) || area <= 0) {
-        alert("Please enter a valid garden area.");
-        return;
-      }
 
-      displayArea.textContent = area;
 
-      let plant, image;
-      if (area < 10) {
-        plant = "Herbs or small leafy greens (like spinach, basil, or lettuce)";
-        image = "https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Ocimum_basilicum_8zz.jpg/500px-Ocimum_basilicum_8zz.jpg";
-      } else if (area < 16) {
-        plant = "Root vegetables (like carrots, beets) or medium plants (like peppers)";
-        image = "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/CarrotDiversityLg.jpg/500px-CarrotDiversityLg.jpg";
-      } else if (area < 25) {
-        plant = "Stem vegetables (like asparagus or leeks)";
-        image = "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Brassica_oleracea_var.gongylodes%28kohlrabi%29.jpg/500px-Brassica_oleracea_var.gongylodes%28kohlrabi%29.jpg";
-      } else if (area < 30) {
-        plant = "Vegetables with underground bulbs or cloves (such as onions and garlic)";
-        image = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Mixed_onions.jpg/500px-Mixed_onions.jpg";
-      } else if (area < 35) {
-        plant = "he edible portion is the flower (like broccoli or cauliflower )";
-        image = "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Broccoli_bloem.jpg/500px-Broccoli_bloem.jpg";
-      } else {
-        plant = "Large vegetable or fruit tree ( like apples or peaches)";
-        image = "https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Malus_domestica_a1.jpg/500px-Malus_domestica_a1.jpg";
-        }
-      suggestedPlant.textContent = plant;
-      plantImage.src = image;
-      plantImage.style.display = "block";
-
-      showPage('recommendation');
+    // Search plant
+    function searchPlant() {
+    const query = document.getElementById('plantSearch').value.toLowerCase();
+    const plant = plants.find(p=>p.name.toLowerCase() === query);
+    if(plant) {
+    document.getElementById('plantInfo').style.display='block';
+    document.getElementById('plantName').textContent = plant.name;
+    document.getElementById('plantDescription').textContent = plant.description;
+    document.getElementById('plantSpacing').textContent = plant.spacing + " m²";
+    document.getElementById('plantImg').src = plant.image;
+    document.getElementById('plantImg').style.display = "block";
+    } else {
+    document.getElementById('plantInfo').style.display='none';
+    }
     }
 
+    // Calculate area and number of plants
+    function calculatePlants() {
+    const length = parseFloat(document.getElementById('length').value);
+    const width = parseFloat(document.getElementById('width').value);
+    const query = document.getElementById('plantSearch').value.toLowerCase();
+    if(isNaN(length) || isNaN(width) || length<=0 || width<=0) { alert("Enter valid numbers for length & width."); return; }
+    const plant = plants.find(p=>p.name.toLowerCase()===query);
+    if(!plant){ alert("Please search & select a plant first."); return; }
+
+    const area = length * width;
+    const num = Math.floor(area / plant.spacing);
+
+    document.getElementById('displayArea').textContent = area.toFixed(2);
+    document.getElementById('displayPlant').textContent = plant.name;
+    document.getElementById('numPlants').textContent = num;
+    document.getElementById('plantImageRec').src = plant.image;
+    document.getElementById('plantImageRec').style.display = "block";
+    showPage('recommendation');
+    }
 </script>
 </body>
 </html>
-<link rel="stylesheet" href="style.css">
